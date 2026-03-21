@@ -49,3 +49,25 @@ The `&&` operator is a bash/cmd feature. Older versions of PowerShell (and some 
 We ran each command separately instead of chaining them.
 
 **Lesson learned:** When scripting on Windows with PowerShell, don't assume bash-style operators work. Run commands individually or use PowerShell's native `;` separator (which runs the second command regardless of the first's exit code).
+
+---
+
+## 3. `TS1484: 'QuoteResponse' is a type and must be imported using a type-only import`
+
+**Ticket:** FE-05 — Build the Quote Dashboard page
+
+**What happened:**
+The TypeScript build failed because `QuoteResponse` (an interface) was imported as a regular value import:
+```typescript
+import { fetchQuotes, QuoteResponse } from '../api/quotes'
+```
+The project's `tsconfig.json` has `verbatimModuleSyntax` enabled, which requires type-only imports for anything that is purely a type and has no runtime representation.
+
+**How we fixed it:**
+We split the import into a value import and a type-only import:
+```typescript
+import { fetchQuotes } from '../api/quotes'
+import type { QuoteResponse } from '../api/quotes'
+```
+
+**Lesson learned:** When `verbatimModuleSyntax` is enabled, always use `import type` for interfaces and type aliases. Classes like `QuoteApiError` are fine as value imports because they exist at runtime (used with `instanceof`).
