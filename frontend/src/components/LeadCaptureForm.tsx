@@ -44,12 +44,14 @@ export default function LeadCaptureForm({ initialBill = 0 }: LeadCaptureFormProp
   if (status === 'success') {
     return (
       <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center">
-        <div className="text-4xl mb-3">✅</div>
+        <div className="text-4xl mb-3">
+          <span role="img" aria-label="Success">✅</span>
+        </div>
         <h3 className="text-lg font-semibold text-green-800">Quote request sent!</h3>
         <p className="text-green-600 text-sm mt-1">We'll be in touch with your personalized quote shortly.</p>
         <button
           onClick={() => setStatus('idle')}
-          className="mt-4 text-sm text-green-700 underline"
+          className="mt-4 text-sm text-green-700 underline hover:text-green-900 transition-colors"
         >
           Submit another request
         </button>
@@ -66,53 +68,57 @@ export default function LeadCaptureForm({ initialBill = 0 }: LeadCaptureFormProp
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Full name</label>
+          <label htmlFor="lead-name" className="block text-sm font-medium text-gray-700 mb-1">Full name</label>
           <input
+            id="lead-name"
             type="text"
             required
             value={name}
             onChange={e => setName(e.target.value)}
             placeholder="Jane Smith"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
+          <label htmlFor="lead-email" className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
           <input
+            id="lead-email"
             type="email"
             required
             value={email}
             onChange={e => setEmail(e.target.value)}
             placeholder="jane@example.com"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Home address</label>
+          <label htmlFor="lead-address" className="block text-sm font-medium text-gray-700 mb-1">Home address</label>
           <textarea
+            id="lead-address"
             required
             value={address}
             onChange={e => setAddress(e.target.value)}
             placeholder="1 Solar Street, Stockholm"
             rows={2}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400 resize-none"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent resize-none"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="lead-bill" className="block text-sm font-medium text-gray-700 mb-1">
             Monthly electricity bill (SEK)
           </label>
           <input
+            id="lead-bill"
             type="number"
             required
             min={1}
             value={bill || ''}
             onChange={e => setBill(parseFloat(e.target.value) || 0)}
             placeholder="e.g. 1500"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
           />
         </div>
 
