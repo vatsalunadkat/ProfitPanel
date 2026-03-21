@@ -5,7 +5,7 @@ import DashboardPage from './pages/DashboardPage'
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/ProfitPanel">
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<QuoteFormPage />} />
