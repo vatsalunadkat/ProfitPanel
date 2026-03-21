@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/ProfitPanel/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SolarQuote – ProfitPanel</title>
+    <script>
+      (function(l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search.slice(1).split('&').map(function(s) {
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null, l.pathname + decoded + l.hash);
+        }
+      }(window.location))
+    </script>
+    <script type="module" crossorigin src="/ProfitPanel/assets/index-D3eO7Myn.js"></script>
+    <link rel="stylesheet" crossorigin href="/ProfitPanel/assets/index-DYdcE31d.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
