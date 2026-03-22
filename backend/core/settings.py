@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'drf_spectacular',
     'quotes',
 ]
 
@@ -129,4 +130,18 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
 
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'core.exception_handler.custom_exception_handler',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Svea Solar Quote API',
+    'DESCRIPTION': 'REST API for the ProfitPanel solar quote platform. '
+                   'Submit quote requests and retrieve all stored quotes.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'CONTACT': {'name': 'ProfitPanel', 'url': 'https://github.com/vatoo/ProfitPanel'},
+    'LICENSE': {'name': 'MIT'},
+    'TAGS': [
+        {'name': 'Quotes', 'description': 'Create and list solar quote requests'},
+    ],
 }
