@@ -71,3 +71,19 @@ import type { QuoteResponse } from '../api/quotes'
 ```
 
 **Lesson learned:** When `verbatimModuleSyntax` is enabled, always use `import type` for interfaces and type aliases. Classes like `QuoteApiError` are fine as value imports because they exist at runtime (used with `instanceof`).
+
+---
+
+## 4. Port conflicts causing silent frontend/backend disconnection
+
+**Ticket:** FE-07 — Match UI to Svea Solar brand (start-dev.bat fix)
+
+**What happened:**
+When the `start-dev.bat` script was run while a previous dev session's processes were still holding ports 8000 or 5173, Vite would silently pick the next available port (e.g. 5174). The Django `CORS_ALLOWED_ORIGINS` list was hardcoded to `localhost:5173`, so API requests from the new frontend port were blocked by CORS. The app appeared to load normally but all API calls failed with opaque CORS errors in the browser console — no clear indication that the port had shifted.
+
+**How we fixed it:**
+Two changes:
+1. Updated `start-dev.bat` to kill any stale processes on ports 8000, 5173–5175 before starting, and launch Vite with `--port 5173 --strictPort` so it fails loudly instead of silently picking a different port.
+2. Replaced the hardcoded `CORS_ALLOWED_ORIGINS` list in `backend/core/settings.py` with `CORS_ALLOWED_ORIGIN_REGEXES` using regex patterns (`r'^http://localhost:\d+$'`) so any localhost port is accepted during development.
+
+**Lesson learned:** Hardcoded port numbers in CORS configs are fragile. In development, use regex-based origin matching to tolerate port changes. For production, pin to exact origins.

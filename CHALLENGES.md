@@ -119,3 +119,28 @@ Screen readers (software used by visually impaired people) couldn't properly und
 - We wrapped decorative emoji in proper `role="img"` with `aria-label` descriptions
 
 **Lesson learned:** Small accessibility improvements cost almost nothing in development time but make the app usable for a much wider audience. It's good practice regardless of whether accessibility is explicitly required.
+
+---
+
+## 9. Making two equal-height cards sit side by side
+
+**What happened:**
+When placing the Savings Calculator and Lead Capture Form side by side in a two-column grid, the cards had different content heights. The calculator is shorter when no bill has been entered, while the form is always tall. This made the layout look unbalanced — one card would be much shorter than the other.
+
+**How we solved it:**
+We used `flex flex-col` on both card containers and `flex-1` / `mt-auto` on the inner content. The form's submit button uses `mt-auto` to push itself to the bottom of the card, so both cards stretch to the same height regardless of content. On mobile, the grid collapses to a single column (`grid-cols-1 lg:grid-cols-2`) and height matching isn't needed.
+
+**Lesson learned:** CSS Grid gives you equal-height columns automatically, but the *content* inside each column also needs to stretch. Combine `grid` with `flex flex-col` and `flex-1` inside each cell to fill the available space naturally.
+
+---
+
+## 10. Dark mode with Tailwind requires careful class management
+
+**What happened:**
+Adding a light/dark mode toggle seemed straightforward — enable `darkMode: 'class'` in Tailwind and add `dark:` prefixed utilities everywhere. But three subtle issues emerged:
+
+1. **Flash of incorrect theme:** On page load, before React hydrates, the page would briefly show the wrong theme. We solved this by reading the theme preference in `getInitialTheme()` synchronously (from `localStorage` or `prefers-color-scheme`) and applying the `dark` class immediately.
+2. **Transition flicker:** Without `transition-colors duration-200` on the `<html>` element, theme switches looked jarring — all colors would change in a single frame. Adding a short transition on the root element smooths the swap for all descendant elements.
+3. **Range slider styling:** The `<input type="range">` element ignores most CSS in dark mode. We had to use vendor-specific pseudo-elements (`::-webkit-slider-thumb`, `::-moz-range-thumb`) in a Tailwind `@layer components` block to style the track and thumb consistently across browsers and themes.
+
+**Lesson learned:** Dark mode is more than adding `dark:` variants. You need to manage the theme class lifecycle carefully (read preference early, apply before first paint) and account for browser-native form elements that don't respond to normal CSS inheritance.
