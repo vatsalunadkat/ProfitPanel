@@ -1,3 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    @apply transition-colors duration-200;
+  }
+  body {
+    @apply antialiased text-gray-800 bg-svea-bg dark:bg-gray-900 dark:text-gray-100;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+}
+
+@layer components {
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 9999px;
+    background: #e5e7eb;
+    cursor: pointer;
+    outline: none;
+    margin: 0;
+    padding: 0;
+  }
+  .dark input[type="range"] {
+    background: #374151;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #00ad69;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+    cursor: pointer;
+    margin-top: -6px;
+  }
+  .dark input[type="range"]::-webkit-slider-thumb {
+    border-color: #1f2937;
+  }
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 9999px;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #00ad69;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+    cursor: pointer;
+  }
+  .dark input[type="range"]::-moz-range-thumb {
+    border-color: #1f2937;
+  }
+  input[type="range"]::-moz-range-track {
+    height: 6px;
+    border-radius: 9999px;
+    background: #e5e7eb;
+  }
+  .dark input[type="range"]::-moz-range-track {
+    background: #374151;
+  }
+
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in-up {
+    animation: fade-in-up 0.4s ease-out forwards;
+  }
+  .animate-fade-in-up-delay {
+    animation: fade-in-up 0.4s ease-out 0.15s forwards;
+    opacity: 0;
+  }
+  .animate-fade-in-up-delay-2 {
+    animation: fade-in-up 0.4s ease-out 0.3s forwards;
+    opacity: 0;
+  }
+}
