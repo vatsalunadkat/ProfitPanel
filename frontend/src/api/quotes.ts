@@ -25,8 +25,8 @@ export interface ApiError {
 
 const FRIENDLY_FIELD_MESSAGES: Record<string, Record<string, string>> = {
   email: {
-    'Enter a valid email address.': 'Please enter a valid email address (e.g. jane@example.com).',
-    'This field is required.': 'We need your email so we can send you the quote.',
+    'Enter a valid email address.': 'Email is invalid.',
+    'This field is required.': 'Email is required.',
   },
   name: {
     'This field is required.': 'Please enter your name.',
