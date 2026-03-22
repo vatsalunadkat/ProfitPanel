@@ -8,6 +8,7 @@ A full-stack solar quotation platform where customers estimate their energy savi
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
 ![Django](https://img.shields.io/badge/Django-6.0-green?logo=django)
 ![DRF](https://img.shields.io/badge/DRF-3.17-red)
+![Swagger](https://img.shields.io/badge/Swagger-OpenAPI%203.0-85EA2D?logo=swagger)
 ![Tailwind](https://img.shields.io/badge/Tailwind-3-06B6D4?logo=tailwindcss)
 ![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite)
 ![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite)
@@ -31,7 +32,19 @@ python manage.py runserver
 
 The API will be available at http://localhost:8000/api/quotes/
 
-You can also visit that URL in a browser - Django REST Framework provides a browsable HTML interface for testing.
+You can also visit that URL in a browser — Django REST Framework provides a browsable HTML interface for testing.
+
+### API Documentation (Swagger / ReDoc)
+
+With the backend running, interactive API docs are available at:
+
+| URL | Description |
+|---|---|
+| [http://localhost:8000/api/docs/](http://localhost:8000/api/docs/) | **Swagger UI** — interactive explorer where you can try requests directly |
+| [http://localhost:8000/api/redoc/](http://localhost:8000/api/redoc/) | **ReDoc** — clean, read-only API reference |
+| [http://localhost:8000/api/schema/](http://localhost:8000/api/schema/) | Raw OpenAPI 3.0 schema (YAML) |
+
+Powered by [drf-spectacular](https://drf-spectacular.readthedocs.io/). The schema is auto-generated from the DRF serializers and view annotations — it stays in sync with the code.
 
 ### Frontend (React)
 
@@ -166,19 +179,29 @@ The frontend translates these into user-friendly messages - users never see raw 
 ```
 ProfitPanel/
 ├── backend/
-│   ├── core/            # Django project settings and root URL config
-│   ├── quotes/          # The quotes app: model, serializer, views, URLs
+│   ├── core/                # Django project settings, root URL config, exception handler
+│   │   ├── settings.py      # CORS, DRF, drf-spectacular config
+│   │   ├── urls.py          # API routes + Swagger/ReDoc endpoints
+│   │   └── exception_handler.py
+│   ├── quotes/              # The quotes app
+│   │   ├── models.py        # Quote model (name, email, address, monthly_bill, savings)
+│   │   ├── serializers.py   # DRF serializer with validation rules
+│   │   ├── views.py         # List + Create endpoints with OpenAPI annotations
+│   │   └── urls.py
 │   ├── requirements.txt
 │   └── .gitignore
 ├── frontend/
-│   ├── public/          # Static assets and 404.html (SPA routing fix)
+│   ├── public/              # Static assets, logos, 404.html (SPA routing fix)
 │   ├── src/
-│   │   ├── api/         # API helpers, TypeScript types, error handling
-│   │   ├── components/  # Reusable components (SavingsCalculator, LeadCaptureForm)
-│   │   └── pages/       # Route-level components (QuoteFormPage, DashboardPage)
+│   │   ├── api/             # API helpers, TypeScript types, error handling
+│   │   ├── components/      # SavingsCalculator, LeadCaptureForm, Layout, ThemeToggle
+│   │   ├── context/         # ThemeContext (light/dark mode provider)
+│   │   └── pages/           # QuoteFormPage, DashboardPage
 │   ├── .env.example
 │   └── .gitignore
-├── CHALLENGES.md         # Problems we faced and how we solved them
+├── CHALLENGES.md            # Design decisions and architectural trade-offs
+├── errors.md                # Runtime errors encountered and how they were fixed
+├── start-dev.bat            # One-click script to start both dev servers
 ├── .gitignore
 └── README.md
 ```
@@ -187,7 +210,8 @@ ProfitPanel/
 
 ## Additional Documentation
 
-- **[CHALLENGES.md](CHALLENGES.md)** - Every significant problem we encountered during development and how we resolved it, written in plain language.
+- **[CHALLENGES.md](CHALLENGES.md)** — Design decisions and architectural trade-offs, written in plain language.
+- **[errors.md](errors.md)** — Runtime errors encountered during development and how they were fixed.
 
 ---
 
@@ -195,7 +219,7 @@ ProfitPanel/
 
 | Layer | Improvement |
 |---|---|
-| **Backend** | Add JWT authentication to protect the dashboard, rate-limit the POST endpoint, add pagination to GET, add input sanitisation |
+| **Backend** | Add JWT authentication to protect the dashboard, rate-limit the POST endpoint, add pagination to GET, input sanitisation |
 | **Database** | Switch to PostgreSQL for concurrent writes, add database backups, add an index on `created_at` |
 | **Frontend** | Add automated tests (vitest + React Testing Library), lazy-load dashboard route, add error boundary components |
 | **Deployment** | CI/CD pipeline with GitHub Actions, environment-specific builds, HTTPS everywhere |
