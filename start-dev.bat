@@ -36,12 +36,12 @@ echo.
 echo  ----------------------------------------
 echo   Both servers are running!
 echo.
-echo   Frontend:  http://localhost:5173
+echo   Frontend:  http://localhost:5173/ProfitPanel/
 echo   Backend:   http://localhost:8000/api/quotes/
 echo  ----------------------------------------
 echo.
 
-start http://localhost:5173
+start http://localhost:5173/ProfitPanel/
 
 echo  Press any key to close this window.
 echo  (The servers will keep running in their own windows.)
