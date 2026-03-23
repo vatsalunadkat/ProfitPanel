@@ -7,7 +7,7 @@ import DashboardPage from './pages/DashboardPage'
 export default function App() {
   return (
     <ThemeProvider>
-      <BrowserRouter basename="/ProfitPanel">
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<QuoteFormPage />} />

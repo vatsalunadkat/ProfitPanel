@@ -35,7 +35,7 @@ export default function DashboardPage() {
     setError('')
     fetchQuotes()
       .then(setQuotes)
-      .catch(() => setError('Could not load quotes. Is the backend running?'))
+      .catch(() => setError('Unable to load quotes. Please check your connection / server status and try again after some time.'))
       .finally(() => setLoading(false))
   }
 
@@ -109,7 +109,15 @@ export default function DashboardPage() {
     return (
       <div className="flex flex-col gap-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Quote Dashboard</h1>
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-6 text-red-700 dark:text-red-400 text-sm">{error}</div>
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-6 text-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <p className="text-red-700 dark:text-red-400">{error}</p>
+          <button
+            onClick={loadQuotes}
+            className="shrink-0 inline-flex items-center gap-2 text-sm font-medium text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900/40 hover:bg-red-200 dark:hover:bg-red-900/60 rounded-lg px-4 py-2 transition-colors"
+          >
+            Retry
+          </button>
+        </div>
       </div>
     )
   }
