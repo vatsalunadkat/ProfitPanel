@@ -84,7 +84,7 @@ export async function submitQuote(data: QuoteSubmission): Promise<QuoteResponse>
     } catch {
       apiError = {
         error_code: 'NETWORK_ERROR',
-        message: 'Could not connect to the server. Please try again.',
+        message: 'Unable to reach the server. Please check your connection and try again.',
       }
     }
     throw new QuoteApiError(apiError)

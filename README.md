@@ -17,7 +17,19 @@ A full-stack solar quotation platform where customers estimate their energy savi
 
 ## Setup
 
-### Backend (Django)
+### Quick Start
+
+**Windows:** Double-click `start-dev.bat` — it starts both servers and opens the app.
+
+**macOS / Linux:**
+```bash
+chmod +x start-dev.sh
+./start-dev.sh
+```
+
+### Manual Start
+
+#### Backend (Django)
 
 **Requirements:** Python 3.10+
 
@@ -34,7 +46,7 @@ The API will be available at http://localhost:8000/api/quotes/
 
 You can also visit that URL in a browser — Django REST Framework provides a browsable HTML interface for testing.
 
-### API Documentation (Swagger / ReDoc)
+#### API Documentation (Swagger / ReDoc)
 
 With the backend running, interactive API docs are available at:
 
@@ -46,7 +58,7 @@ With the backend running, interactive API docs are available at:
 
 Powered by [drf-spectacular](https://drf-spectacular.readthedocs.io/). The schema is auto-generated from the DRF serializers and view annotations — it stays in sync with the code.
 
-### Frontend (React)
+#### Frontend (React)
 
 **Requirements:** Node.js 18+
 
@@ -57,7 +69,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173 in your browser.
+Open http://localhost:5173/ProfitPanel/ in your browser.
 
 > **Note:** Both servers need to be running simultaneously for the full app to work. The frontend makes API calls to the backend.
 
@@ -77,7 +89,7 @@ Django is a Python web framework. DRF is a library built on top of it that makes
 | **Flask** | Same problem - too much manual assembly for serialization, validation, and database access. Fine for microservices, but DRF's batteries-included approach is faster for this scope. |
 | **Express.js (Node)** | Would keep the stack all-JavaScript, but loses Django's admin panel, ORM, and DRF's automatic validation - all of which save significant time. |
 
-**In production we'd add:** Authentication on the dashboard (JWT or session-based), rate limiting on the POST endpoint, and input sanitisation middleware.
+**In production I'd add:** Authentication on the dashboard (JWT or session-based), rate limiting on the POST endpoint, and input sanitisation middleware.
 
 ### Database: SQLite
 
@@ -90,7 +102,7 @@ A file-based database that comes built into Django. No server to install, no con
 | **PostgreSQL** | The production choice - handles concurrent writes, has better tooling, and scales. But for an assessment, installing and configuring a database server is overhead with no benefit. |
 | **MySQL** | Same argument as PostgreSQL, with slightly worse Django integration. |
 
-**In production we'd switch to:** PostgreSQL, with connection pooling and proper backup strategy.
+**In production I'd switch to:** PostgreSQL, with connection pooling and proper backup strategy.
 
 ### Frontend Build Tool: Vite
 
@@ -103,13 +115,13 @@ A modern build tool that uses native ES modules for instant dev server starts.
 | **Create React App (CRA)** | No longer maintained by Meta. Very slow cold starts (~30 seconds). Effectively deprecated. |
 | **Next.js** | Excellent framework, but brings SSR, file-based routing, and API routes - concepts that add complexity this project doesn't need. Overkill for a simple SPA. |
 
-**In production we'd add:** Code splitting, lazy-loaded routes, and a proper CI/CD pipeline with build caching.
+**In production I'd add:** Code splitting, lazy-loaded routes, and a proper CI/CD pipeline with build caching.
 
 ### Styling: Tailwind CSS v3
 
 **What it is:** A utility-first CSS framework where styles are written directly in the HTML/JSX as class names.
 
-> ⚠️ **Why v3 specifically:** Tailwind v4 (released 2025) is a complete rewrite with a different config system. We pinned to v3 to ensure all setup instructions and class names work correctly. See [CHALLENGES.md](CHALLENGES.md) for details.
+> ⚠️ **Why v3 specifically:** Tailwind v4 (released 2025) is a complete rewrite with a different config system. I pinned to v3 to ensure all setup instructions and class names work correctly. See [CHALLENGES.md](docs/CHALLENGES.md) for details.
 
 **Why this over the alternatives:**
 
@@ -121,7 +133,7 @@ A modern build tool that uses native ES modules for instant dev server starts.
 
 Tailwind keeps styles co-located with JSX, the spacing scale enforces visual consistency, and unused classes are stripped at build time so the CSS bundle stays tiny.
 
-**In production we'd add:** A custom design system config in `tailwind.config.js` with brand colours, typography, and component presets.
+**In production I'd add:** A custom design system config in `tailwind.config.js` with brand colours, typography, and component presets.
 
 ### Frontend Framework: React 19 + TypeScript
 
@@ -199,9 +211,11 @@ ProfitPanel/
 │   │   └── pages/           # QuoteFormPage, DashboardPage
 │   ├── .env.example
 │   └── .gitignore
-├── CHALLENGES.md            # Design decisions and architectural trade-offs
-├── errors.md                # Runtime errors encountered and how they were fixed
-├── start-dev.bat            # One-click script to start both dev servers
+├── docs/
+│   ├── CHALLENGES.md        # Problems encountered and how I solved them
+│   └── SETUP.md             # Detailed setup and troubleshooting guide
+├── start-dev.bat            # One-click dev startup (Windows)
+├── start-dev.sh             # One-click dev startup (macOS / Linux)
 ├── .gitignore
 └── README.md
 ```
@@ -210,12 +224,12 @@ ProfitPanel/
 
 ## Additional Documentation
 
-- **[CHALLENGES.md](CHALLENGES.md)** — Design decisions and architectural trade-offs, written in plain language.
-- **[errors.md](errors.md)** — Runtime errors encountered during development and how they were fixed.
+- **[docs/CHALLENGES.md](docs/CHALLENGES.md)** — Problems I ran into during development and how I solved them.
+- **[docs/SETUP.md](docs/SETUP.md)** — Detailed setup guide with links and troubleshooting tips.
 
 ---
 
-## What We'd Do Differently in Production
+## What I'd Do Differently in Production
 
 | Layer | Improvement |
 |---|---|

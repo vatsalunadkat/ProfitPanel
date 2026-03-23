@@ -54,7 +54,7 @@ export default function LeadCaptureForm({ initialBill = 0 }: LeadCaptureFormProp
       if (err instanceof QuoteApiError) {
         setErrorMessages(err.friendlyMessages)
       } else {
-        setErrorMessages(['Something went wrong. Please check your connection and try again.'])
+        setErrorMessages(['An unexpected error occurred. Please check your connection and try again.'])
       }
     }
   }
