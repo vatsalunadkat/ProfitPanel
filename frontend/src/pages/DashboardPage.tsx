@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { fetchQuotes } from '../api/quotes'
 import type { QuoteResponse } from '../api/quotes'
+import QuoteDetailModal from '../components/QuoteDetailModal'
 
 type SortKey = 'name' | 'email' | 'address' | 'monthly_bill' | 'estimated_savings' | 'created_at'
 type SortDir = 'asc' | 'desc'
@@ -29,6 +30,7 @@ export default function DashboardPage() {
   const [search, setSearch] = useState('')
   const [sortKey, setSortKey] = useState<SortKey>('created_at')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
+  const [selectedQuoteId, setSelectedQuoteId] = useState<number | null>(null)
 
   function loadQuotes() {
     setLoading(true)
@@ -221,7 +223,7 @@ export default function DashboardPage() {
               </thead>
               <tbody className="divide-y divide-gray-50 dark:divide-gray-700/50">
                 {sorted.map(quote => (
-                  <tr key={quote.id} className="hover:bg-svea-green/[0.03] dark:hover:bg-svea-green/[0.06] transition-colors">
+                  <tr key={quote.id} onClick={() => setSelectedQuoteId(quote.id)} className="hover:bg-svea-green/[0.03] dark:hover:bg-svea-green/[0.06] transition-colors cursor-pointer">
                     <td className="px-4 py-3 font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap">{quote.name}</td>
                     <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{quote.email}</td>
                     <td className="px-4 py-3 text-gray-500 dark:text-gray-400 max-w-[200px] truncate">{quote.address}</td>
@@ -242,6 +244,14 @@ export default function DashboardPage() {
             </table>
           </div>
         </div>
+      )}
+
+      {selectedQuoteId !== null && (
+        <QuoteDetailModal
+          quoteId={selectedQuoteId}
+          onClose={() => setSelectedQuoteId(null)}
+          onChanged={loadQuotes}
+        />
       )}
     </div>
   )

@@ -20,8 +20,8 @@ export default {
           'green-light': '#e6f7ef',
           teal: '#0d9488',
           muted: '#6b7280',
-          bg: '#f9fafb',
-          card: '#ffffff',
+          bg: '#f5f5f0',
+          card: '#fafaf7',
         },
       },
       borderRadius: {

@@ -6,5 +6,5 @@ class QuoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quote
         fields = ['id', 'name', 'email', 'address', 'monthly_bill',
-                  'estimated_savings', 'created_at']
-        read_only_fields = ['id', 'estimated_savings', 'created_at']
+                  'estimated_savings', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'estimated_savings', 'created_at', 'updated_at']
