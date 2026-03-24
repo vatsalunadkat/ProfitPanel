@@ -15,6 +15,7 @@ export interface QuoteResponse {
   monthly_bill: string
   estimated_savings: string
   created_at: string
+  updated_at: string
 }
 
 export interface ApiError {
@@ -96,4 +97,38 @@ export async function fetchQuotes(): Promise<QuoteResponse[]> {
   const response = await fetch(`${API_BASE_URL}/api/quotes/`)
   if (!response.ok) throw new Error('Failed to fetch quotes')
   return response.json()
+}
+
+export async function fetchQuoteById(id: number): Promise<QuoteResponse> {
+  const response = await fetch(`${API_BASE_URL}/api/quotes/${id}/`)
+  if (!response.ok) throw new Error('Failed to fetch quote')
+  return response.json()
+}
+
+export async function updateQuote(id: number, data: QuoteSubmission): Promise<QuoteResponse> {
+  const response = await fetch(`${API_BASE_URL}/api/quotes/${id}/`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  if (!response.ok) {
+    let apiError: ApiError
+    try {
+      apiError = await response.json()
+    } catch {
+      apiError = {
+        error_code: 'NETWORK_ERROR',
+        message: 'Unable to reach the server. Please check your connection and try again.',
+      }
+    }
+    throw new QuoteApiError(apiError)
+  }
+  return response.json()
+}
+
+export async function deleteQuote(id: number): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/api/quotes/${id}/`, {
+    method: 'DELETE',
+  })
+  if (!response.ok) throw new Error('Failed to delete quote')
 }
