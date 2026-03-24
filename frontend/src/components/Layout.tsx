@@ -21,7 +21,7 @@ function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
 
 export default function Layout() {
   return (
-    <div className="h-screen bg-svea-bg dark:bg-gray-900 flex flex-col overflow-auto transition-colors duration-200">
+    <div className="min-h-screen bg-svea-bg dark:bg-gray-900 flex flex-col transition-colors duration-200">
       <nav className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 px-4 sm:px-6 lg:px-8 shrink-0 transition-colors duration-200">
         <div className="max-w-6xl mx-auto flex items-center justify-between h-14">
           <NavLink to="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
