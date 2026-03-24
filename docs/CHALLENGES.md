@@ -185,3 +185,18 @@ When `start-dev.bat` ran while previous dev processes were still holding ports, 
 3. Replaced hardcoded `CORS_ALLOWED_ORIGINS` with `CORS_ALLOWED_ORIGIN_REGEXES` using `r'^http://localhost:\d+$'`
 
 **Lesson learned:** Hardcoded port numbers in CORS configs are fragile. Use regex-based origin matching in development; pin exact origins in production.
+
+---
+
+## 14. React StrictMode causes double API calls in development
+
+**What happened:**
+After adding a quote detail modal that fetches a single quote by ID, I noticed the API was called twice every time a row was clicked. The `useEffect` inside the modal component fired twice even though `quoteId` hadn't changed.
+
+**Why it happens:**
+The app is wrapped in `<React.StrictMode>` (in `main.tsx`). In development mode, StrictMode intentionally mounts, unmounts, and re-mounts every component to surface bugs related to missing cleanup in effects. This causes every `useEffect` to run twice.
+
+**Resolution:**
+No code change needed — this is by design and **only happens in development**. Production builds are unaffected. Removing `<StrictMode>` would stop the double call but is not recommended, as it catches real bugs like missing effect cleanup and stale closures.
+
+**Lesson learned:** If you see effects running twice in development, check for `<StrictMode>` before assuming there's a bug. It's a development-only safeguard, not a production issue.
